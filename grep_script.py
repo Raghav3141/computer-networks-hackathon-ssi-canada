@@ -1,5 +1,7 @@
 import json
 import os
+from dateTime import datetime
+import time
 
 time_to_temp_graph_data = {"time": [], "temp": [], "soil_val": [], "hum": []}
 
@@ -40,3 +42,15 @@ for filename in os.listdir(folder_path):
 
 print("Done loading.")
 print(time_to_temp_graph_data)
+
+
+
+record = list(zip(time_to_temp_graph_data["time"],
+                  time_to_temp_graph_data["temp"],time_to_temp_graph_data["soil_val"],
+                  time_to_temp_graph_data["hum"]))
+
+record.sort(key=lambda x: datetime.fromisoformat(x[0].replace("Z", "+00:00")))
+
+for record in records: 
+    timestamp, temp, soil_val, hum = record
+    print(f"[REPLAY] {timestamp} | Temp: {temp}°C | Soil Moisture: {soil_val} | Humidity: {hum}%")
